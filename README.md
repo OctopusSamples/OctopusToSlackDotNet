@@ -7,3 +7,13 @@ Define the `SLACK_URI_APIKEY` environment variable to the Slack web hook URL cre
 at [https://api.slack.com/apps/](https://api.slack.com/apps/).
 
 This application has been push to Docker Hub as [octopussamples/octopustoslack](https://hub.docker.com/r/octopussamples/octopustoslack).
+
+Run locally with:
+
+```
+docker run \
+    -e SLACK_URI_APIKEY=https://hooks.slack.com/services/randomchars/morerandomchars/yetmorerandomchars \
+    -e API_TOKEN=thetokentoaccessthegamewaywith \
+    -p 8080:80 \
+    octopussamples/octopustoslack
+```

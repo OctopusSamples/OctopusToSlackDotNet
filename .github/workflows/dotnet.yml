@@ -38,7 +38,7 @@ jobs:
         tags: octopussamples/octopustoslack:0.0.${{ github.run_number }}
 
     - name: Build and push latest
-      id: docker_build
+      id: docker_build_latest
       uses: docker/build-push-action@v2
       with:
         push: true

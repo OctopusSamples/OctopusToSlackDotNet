@@ -15,10 +15,12 @@ namespace OctopusToSlackDotNet.Controllers
     public class OctopusWebHookController : ControllerBase
     {
         private readonly ILogger<OctopusWebHookController> _logger;
+        private readonly string _token;
 
         public OctopusWebHookController(ILogger<OctopusWebHookController> logger)
         {
             _logger = logger;
+            _token = Environment.GetEnvironmentVariable("API_TOKEN");
         }
 
         [HttpPost]
@@ -27,6 +29,16 @@ namespace OctopusToSlackDotNet.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(_token))
+                {
+                    throw new ApplicationException("API_TOKEN environment variable must be set.");
+                }
+
+                if (Request.Headers["API-TOKEN"] != _token)
+                {
+                    throw new ArgumentException("The token supplied in the API-TOKEN does not match the configured token.");
+                }
+                
                 using (var reader = new StreamReader(Request.Body))
                 {
                     var data = await reader.ReadToEndAsync();
@@ -43,7 +55,6 @@ namespace OctopusToSlackDotNet.Controllers
                 
                     var responseText = client.PostMessage(slackMessage);                
                     return Ok(responseText);
-                    // Do something
                 }
             }
             catch (Exception ex)

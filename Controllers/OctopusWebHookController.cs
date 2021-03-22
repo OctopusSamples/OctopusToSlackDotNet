@@ -24,7 +24,6 @@ namespace OctopusToSlackDotNet.Controllers
         }
 
         [HttpPost]
-        [Route("")]
         public async Task<IActionResult> Post()
         {
             try
